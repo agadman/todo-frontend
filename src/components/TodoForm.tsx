@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type FormData from "../interfaces/FormDataInterface";
 import type ErrorsData from "../interfaces/ErrorsDataInterface";
+import * as Yup from 'yup';
 
 const TodoForm = () => {
 
@@ -12,45 +13,42 @@ const TodoForm = () => {
 
   const statusArr = ["ej påbörjad", "pågående", "avslutad"];
 
+  const validationSchema = Yup.object({
+    title: Yup.string().required("Du måste fylla i en titel").min(3, "Titeln måste vara minst 3 tecken lång"),
+    description: Yup.string().max(200, "Beskrivningen får inte överstiga 200 tecken"),
+    status: Yup.string().required("Välj status från listan")
+  })
+
   const [errors, setErrors] = useState<ErrorsData>({});
 
-  const validateForm = ((data: FormData) => {
-    const validationErrors: ErrorsData = {};
-
-    if (!data.title.trim()) {
-      validationErrors.title = "Title is required";
-    }
-
-    if (!data.description.trim()) {
-      validationErrors.description = "Description is required";
-    }
-
-    if (!statusArr.includes(data.status)) {
-      validationErrors.status = "Invalid status selected";
-    }
-
-    return validationErrors;
-  })
-
-  const submitForm = ((event: any) => {
+  const submitForm = async (event: any) => {
     event.preventDefault();
     
-    const validationErrors = validateForm(formData);
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-    } else {
+    try {
+      await validationSchema.validate(formData, { abortEarly: false });
+      console.log("Todo skickad", formData);
       setErrors({});
-      //skicka data till API
+    } catch (errors) {
+       const validationErrors: ErrorsData = {};
+
+       if (errors instanceof Yup.ValidationError) {
+         errors.inner.forEach (error => {
+            const prop = error.path as keyof ErrorsData
+
+            validationErrors[prop] = error.message;
+         });
+         setErrors(validationErrors);
+       }
     }
-  })
+  }
   
   return (
     <form onSubmit={submitForm}>
-      <label htmlFor="title">Title</label>
+      <label htmlFor="title">Titel</label>
       <input type="text" id="title" name="title" value={formData.title} onChange={(event) => setFormData({...formData, title: event.target.value})} />
       {errors.title && <span className="error">{errors.title}</span>}
 
-      <label htmlFor="description">Description</label>
+      <label htmlFor="description">Beskrivning</label>
       <textarea id="description" name="description" value={formData.description} onChange={(event) => setFormData({...formData, description: event.target.value})}></textarea>
       {errors.description && <span className="error">{errors.description}</span>}
 
@@ -60,6 +58,7 @@ const TodoForm = () => {
           <option key={index} value={status}>{status}</option>
         ))}
       </select>
+      {errors.status && <span className="error">{errors.status}</span>}
       <input type="submit" value="Add Todo" />
     </form>
   )
