@@ -1,17 +1,28 @@
-import type TodoInterface from "../interfaces/TodoInterface"
+import type TodoInterface from "../interfaces/TodoInterface";
 
-const Todo = ({todo}: {todo: TodoInterface}) => {
+type Props = {
+  todo: TodoInterface;
+  onDelete: (id: number) => void;
+};
 
-  const statusColor = todo.status === "ej påbörjad" ? "red" : todo.status === "Pågående" ? "orange" : "green";
-  
+const Todo = ({ todo, onDelete }: Props) => {
+  const statusColor =
+    todo.status === "ej påbörjad"
+      ? "red"
+      : todo.status === "pågående"
+      ? "orange"
+      : "green";
+
   return (
     <section>
       <h2>{todo.title}</h2>
       <p>{todo.description}</p>
       <p style={{ color: statusColor }}>Status: {todo.status}</p>
-      <p>{todo.createdAt.toLocaleString()}</p>
-    </section>
-  )
-}
+      <p>{new Date(todo.createdAt).toLocaleString()}</p>
 
-export default Todo
+      <button onClick={() => onDelete(todo.id)}>Delete</button>
+    </section>
+  );
+};
+
+export default Todo;

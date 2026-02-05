@@ -3,7 +3,11 @@ import type FormData from "../interfaces/FormDataInterface";
 import type ErrorsData from "../interfaces/ErrorsDataInterface";
 import * as Yup from 'yup';
 
-const TodoForm = () => {
+type Props = {
+  todoUpdated: () => void; 
+};
+
+const TodoForm = ({ todoUpdated }: Props) => {
 
   const [formData, setFormData] = useState<FormData>({
     title: "",
@@ -11,7 +15,7 @@ const TodoForm = () => {
     status: "ej påbörjad",
   });
 
-  const statusArr = ["ej påbörjad", "pågående", "avslutad"];
+  const statusArr = ["ej påbörjad", "pågående", "avklarad"];
 
   const validationSchema = Yup.object({
     title: Yup.string().required("Du måste fylla i en titel").min(3, "Titeln måste vara minst 3 tecken lång"),
@@ -28,6 +32,27 @@ const TodoForm = () => {
       await validationSchema.validate(formData, { abortEarly: false });
       console.log("Todo skickad", formData);
       setErrors({});
+
+      const response = await fetch('https://todo-api-8fuh.onrender.com/api/todos', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Request failed");
+    }
+
+    const createdTodo = await response.json();
+    console.log("Created:", createdTodo);
+
+    setFormData({
+      title: "",
+      description: "",
+      status: "ej påbörjad",
+    });
+    todoUpdated();
+
     } catch (errors) {
        const validationErrors: ErrorsData = {};
 
@@ -38,6 +63,7 @@ const TodoForm = () => {
             validationErrors[prop] = error.message;
          });
          setErrors(validationErrors);
+         return;
        }
     }
   }
