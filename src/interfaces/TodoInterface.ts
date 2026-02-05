@@ -3,5 +3,5 @@ export default interface TodoInterface {
     title: string;
     description: string;
     status: string;
-    createdAt: Date;
+    createdAt: string;
 }

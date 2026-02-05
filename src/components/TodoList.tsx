@@ -31,6 +31,32 @@ const TodoList = () => {
       }
     };
 
+    const updateStatus = async (id: number, newStatus: string) => {
+  const current = todos.find(t => t.id === id);
+  if (!current) return;
+
+  const res = await fetch(
+    `https://todo-api-8fuh.onrender.com/api/todos/${id}`,
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: current.title,
+        description: current.description,
+        status: newStatus,
+      }),
+    }
+  );
+
+  if (!res.ok) throw new Error("Update failed");
+
+  setTodos(prev =>
+    prev.map(t =>
+      t.id === id ? { ...t, status: newStatus } : t
+    )
+  );
+};
+
     const deleteTodo = async (id: number) => {
       try {
         setError(null);
@@ -59,7 +85,7 @@ const TodoList = () => {
        {loading && <p>Loading...</p>}
 
        {todos.map((todo) => (
-        <Todo key={todo.id} todo={todo} onDelete={deleteTodo} />
+        <Todo key={todo.id} todo={todo} onDelete={deleteTodo} onStatusChange={updateStatus} />
        ))}
     </div>
     <TodoForm todoUpdated={fetchTodos} />

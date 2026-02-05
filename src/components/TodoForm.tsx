@@ -12,15 +12,11 @@ const TodoForm = ({ todoUpdated }: Props) => {
   const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",
-    status: "ej påbörjad",
   });
-
-  const statusArr = ["ej påbörjad", "pågående", "avklarad"];
 
   const validationSchema = Yup.object({
     title: Yup.string().required("Du måste fylla i en titel").min(3, "Titeln måste vara minst 3 tecken lång"),
-    description: Yup.string().max(200, "Beskrivningen får inte överstiga 200 tecken"),
-    status: Yup.string().required("Välj status från listan")
+    description: Yup.string().max(200, "Beskrivningen får inte överstiga 200 tecken")
   })
 
   const [errors, setErrors] = useState<ErrorsData>({});
@@ -36,7 +32,7 @@ const TodoForm = ({ todoUpdated }: Props) => {
       const response = await fetch('https://todo-api-8fuh.onrender.com/api/todos', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({...formData, status: "ej påbörjad"}),
     });
 
     if (!response.ok) {
@@ -49,7 +45,6 @@ const TodoForm = ({ todoUpdated }: Props) => {
     setFormData({
       title: "",
       description: "",
-      status: "ej påbörjad",
     });
     todoUpdated();
 
@@ -77,14 +72,6 @@ const TodoForm = ({ todoUpdated }: Props) => {
       <label htmlFor="description">Beskrivning</label>
       <textarea id="description" name="description" value={formData.description} onChange={(event) => setFormData({...formData, description: event.target.value})}></textarea>
       {errors.description && <span className="error">{errors.description}</span>}
-
-      <label htmlFor="status">Status</label>
-      <select id="status" name="status" value={formData.status} onChange={(event) => setFormData({...formData, status: event.target.value})}>
-        {statusArr.map((status, index) => (
-          <option key={index} value={status}>{status}</option>
-        ))}
-      </select>
-      {errors.status && <span className="error">{errors.status}</span>}
       <input type="submit" value="Add Todo" />
     </form>
   )
