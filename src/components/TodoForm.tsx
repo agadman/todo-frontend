@@ -22,7 +22,7 @@ const TodoForm = ({ todoUpdated }: Props) => {
 
   const [errors, setErrors] = useState<ErrorsData>({});
 
-  const submitForm = async (event: any) => {
+  const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     
     try {
