@@ -39,14 +39,14 @@ const Todo = ({ todo, onDelete, onStatusChange }: Props) => {
     </div>
 
     <p className="todo-note-date">
-      {new Date(todo.createdAt).toLocaleString()}
+      {new Date(todo.createdAt).toLocaleString("sv-SE")}
     </p>
 
     <button
       className="todo-note-delete"
       onClick={() => onDelete(todo.id)}
     >
-      Delete
+      Ta bort
     </button>
 
   </div>

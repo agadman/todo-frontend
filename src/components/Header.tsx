@@ -3,7 +3,7 @@ import "./Header.css";
 const Header = () => {
   return (
     <header>
-        <h1>My Todo List</h1>
+        <h1>Att göra lista</h1>
     </header>
   )
 }

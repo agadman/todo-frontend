@@ -66,7 +66,7 @@ const TodoForm = ({ todoUpdated }: Props) => {
   
   return (
   <form className="todo-form" onSubmit={submitForm}>
-    <h2 className="todo-form-title">Add a new todo</h2>
+    <h2 className="todo-form-title">Lägg till en uppgift:</h2>
 
     <div className="todo-form-field">
       <label htmlFor="title">Titel</label>
@@ -81,7 +81,7 @@ const TodoForm = ({ todoUpdated }: Props) => {
     </div>
 
     <div className="todo-form-field">
-      <label htmlFor="description">Beskrivning</label>
+      <label htmlFor="description">Beskrivning (max 200 tecken)</label>
       <textarea
         id="description"
         name="description"
@@ -96,7 +96,7 @@ const TodoForm = ({ todoUpdated }: Props) => {
     </div>
 
     <button className="todo-form-btn" type="submit">
-      Add Todo
+      Lägg till
     </button>
   </form>
 );
