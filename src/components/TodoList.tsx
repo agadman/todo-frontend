@@ -3,6 +3,7 @@ import type TodoInterface from '../interfaces/TodoInterface'
 import Todo from './Todo'
 import TodoForm from './TodoForm'
 import { SquareLoader } from 'react-spinners';
+import './TodoList.css';
 
 const TodoList = () => {
     const [todos, setTodos] = useState<TodoInterface[]>([]);
@@ -80,15 +81,22 @@ const TodoList = () => {
  
   return (
     <>
-    <div>
-       {error && <p>{error}</p>}
-       {loading && <SquareLoader color="#f2d774" size={50} />}
-
-       {todos.map((todo) => (
-        <Todo key={todo.id} todo={todo} onDelete={deleteTodo} onStatusChange={updateStatus} />
-       ))}
+    <div className="todo-list">
+       {error && <p className='todo-list-error'>{error}</p>}
+       {loading && (
+        <div className="loader-container">
+          <SquareLoader color="#f2d774" size={50} />
+        </div>
+       )}
+        <div className="todo-grid">
+          {todos.map((todo) => (
+            <Todo key={todo.id} todo={todo} onDelete={deleteTodo} onStatusChange={updateStatus} />
+          ))}
+       </div>
     </div>
-    <TodoForm todoUpdated={fetchTodos} />
+    <div className="todo-form-container">
+      <TodoForm todoUpdated={fetchTodos} />
+    </div>
     </>
   )
 }

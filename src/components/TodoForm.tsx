@@ -2,6 +2,7 @@ import { useState } from "react";
 import type FormData from "../interfaces/FormDataInterface";
 import type ErrorsData from "../interfaces/ErrorsDataInterface";
 import * as Yup from 'yup';
+import "./TodoForm.css";
 
 type Props = {
   todoUpdated: () => void; 
@@ -64,17 +65,41 @@ const TodoForm = ({ todoUpdated }: Props) => {
   }
   
   return (
-    <form onSubmit={submitForm}>
-      <label htmlFor="title">Titel</label>
-      <input type="text" id="title" name="title" value={formData.title} onChange={(event) => setFormData({...formData, title: event.target.value})} />
-      {errors.title && <span className="error">{errors.title}</span>}
+  <form className="todo-form" onSubmit={submitForm}>
+    <h2 className="todo-form-title">Add a new todo</h2>
 
+    <div className="todo-form-field">
+      <label htmlFor="title">Titel</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        value={formData.title}
+        onChange={(event) => setFormData({ ...formData, title: event.target.value })}
+      />
+      {errors.title && <span className="todo-form-error">{errors.title}</span>}
+    </div>
+
+    <div className="todo-form-field">
       <label htmlFor="description">Beskrivning</label>
-      <textarea id="description" name="description" value={formData.description} onChange={(event) => setFormData({...formData, description: event.target.value})}></textarea>
-      {errors.description && <span className="error">{errors.description}</span>}
-      <input type="submit" value="Add Todo" />
-    </form>
-  )
+      <textarea
+        id="description"
+        name="description"
+        value={formData.description}
+        onChange={(event) =>
+          setFormData({ ...formData, description: event.target.value })
+        }
+      />
+      {errors.description && (
+        <span className="todo-form-error">{errors.description}</span>
+      )}
+    </div>
+
+    <button className="todo-form-btn" type="submit">
+      Add Todo
+    </button>
+  </form>
+);
 }
 
 export default TodoForm

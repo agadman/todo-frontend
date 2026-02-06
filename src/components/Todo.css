@@ -1,0 +1,84 @@
+.todo-note {
+  position: relative;
+  padding: 0.85rem 0.85rem 0.75rem;
+  border-radius: 10px;
+  background: #fff3a6;          
+  border: 1px solid #f2d774;     
+  box-shadow: 0 10px 18px rgba(0,0,0,0.10);
+  transform: rotate(-0.4deg);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.todo-note-title {
+  margin: 0 0 0.4rem;
+  line-height: 1.2;
+  color: #2b2b2b;
+  font-size: 1.1rem;
+}
+
+.todo-note-description {
+  margin: 0 0 0.6rem;
+  color: #2b2b2b;
+  opacity: 0.9;
+  font-size: 0.95rem;
+}
+
+.todo-note-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.todo-note-label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #2b2b2b;
+}
+
+.todo-note-select {
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  background: rgba(255,255,255,0.6);
+  outline: none;
+}
+
+.todo-note-select:focus {
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.08);
+}
+
+.todo-note-date {
+  margin: 0.5rem 0 0.75rem;
+  font-size: 0.8rem;
+  opacity: 0.75;
+  color: #2b2b2b;
+}
+
+.todo-note-delete {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.55);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  cursor: pointer;
+  align-self: end;
+}
+
+.todo-note-delete:hover {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.todo-note-delete:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.2);
+  outline-offset: 3px;
+  border-radius: 4px;
+}

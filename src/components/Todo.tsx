@@ -1,4 +1,5 @@
 import type TodoInterface from "../interfaces/TodoInterface";
+import "./Todo.css";
 
 type Props = {
   todo: TodoInterface;
@@ -15,27 +16,34 @@ const Todo = ({ todo, onDelete, onStatusChange }: Props) => {
       : "green";
 
   return (
-    <section>
-      <h2>{todo.title}</h2>
-      <p>{todo.description}</p>
-      <select
+    <section className="todo-note">
+      <h2 className="todo-note-title">{todo.title}</h2>
+      {todo.description && (
+        <p className="todo-note-description">{todo.description}</p>
+      )}
+      <div className="todo-note-row">
+      <label className="todo-note-label">
+        Status
+        <select
+          className="todo-note-select"
           value={todo.status}
           onChange={(e) => onStatusChange(todo.id, e.target.value)}
-          style={{
-          border: `2px solid ${statusColor}`,
-          borderRadius: "6px",
-          padding: "4px 8px"
-        }}
+          style={{ borderColor: statusColor }}
         >
-          <option>ej påbörjad</option>
-          <option>pågående</option>
-          <option>avklarad</option>
+          <option value="ej påbörjad">ej påbörjad</option>
+          <option value="pågående">pågående</option>
+          <option value="avklarad">avklarad</option>
         </select>
-      <p>{new Date(todo.createdAt).toLocaleString()}</p>
+      </label>
+    </div>
 
-      <button onClick={() => onDelete(todo.id)}>Delete</button>
-    </section>
-  );
+    <p className="todo-note-date">{new Date(todo.createdAt).toLocaleString()}</p>
+
+    <button className="todo-note-delete" onClick={() => onDelete(todo.id)}>
+      Delete
+    </button>
+  </section>
+);
 };
 
 export default Todo;

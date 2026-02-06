@@ -1,0 +1,30 @@
+.todo-list {
+  padding: 0 1rem 2rem;
+}
+
+.todo-list-error {
+  background: #ffe3e3;
+  border: 1px solid #ffb3b3;
+  color: #7a1c1c;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0;
+}
+
+.todo-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+@media (max-width: 600px) {
+  .todo-grid {
+    grid-template-columns: 1fr;
+  }
+}
