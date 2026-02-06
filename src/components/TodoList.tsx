@@ -6,14 +6,17 @@ import { SquareLoader } from 'react-spinners';
 import './TodoList.css';
 
 const TodoList = () => {
+    // states för att hantera todos, felmeddelanden och loading
     const [todos, setTodos] = useState<TodoInterface[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
+    // useEffect för att hämta todos när komponenten mountas
     useEffect(() => {
       fetchTodos();
     }, []);
 
+    // funktion för att hämta todos från API:et
     const fetchTodos = async () => {
       try {
         setLoading(true);
@@ -33,32 +36,34 @@ const TodoList = () => {
       }
     };
 
+    // funktion för att uppdatera status på en todo
     const updateStatus = async (id: number, newStatus: string) => {
-  const current = todos.find(t => t.id === id);
-  if (!current) return;
+      const current = todos.find(t => t.id === id);
+      if (!current) return;
 
-  const res = await fetch(
-    `https://todo-api-8fuh.onrender.com/api/todos/${id}`,
-    {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title: current.title,
-        description: current.description,
-        status: newStatus,
-      }),
-    }
-  );
+      const res = await fetch(
+        `https://todo-api-8fuh.onrender.com/api/todos/${id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: current.title,
+            description: current.description,
+            status: newStatus,
+          }),
+        }
+      );
 
-  if (!res.ok) throw new Error("Update failed");
+      if (!res.ok) throw new Error("Update failed");
 
-  setTodos(prev =>
-    prev.map(t =>
-      t.id === id ? { ...t, status: newStatus } : t
-    )
-  );
-};
-
+      setTodos(prev =>
+        prev.map(t =>
+          t.id === id ? { ...t, status: newStatus } : t
+        )
+      );
+    };
+    
+    // funktion för att ta bort en todo
     const deleteTodo = async (id: number) => {
       try {
         setError(null);

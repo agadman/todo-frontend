@@ -4,22 +4,27 @@ import type ErrorsData from "../interfaces/ErrorsDataInterface";
 import * as Yup from 'yup';
 import "./TodoForm.css";
 
+// Props-typen som beskriver de props som komponenten förväntar sig
 type Props = {
   todoUpdated: () => void; 
 };
 
+// Formkomponent för att skapa ny todo
 const TodoForm = ({ todoUpdated }: Props) => {
 
+  // State för att hantera formulärets data
   const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",
   });
 
+  // Valideringsschema med Yup
   const validationSchema = Yup.object({
     title: Yup.string().required("Du måste fylla i en titel").min(3, "Titeln måste vara minst 3 tecken lång"),
     description: Yup.string().max(200, "Beskrivningen får inte överstiga 200 tecken")
   })
 
+  // State för valideringsfel
   const [errors, setErrors] = useState<ErrorsData>({});
 
   const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
