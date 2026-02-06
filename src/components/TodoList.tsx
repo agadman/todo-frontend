@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import type TodoInterface from '../interfaces/TodoInterface'
 import Todo from './Todo'
 import TodoForm from './TodoForm'
+import { SquareLoader } from 'react-spinners';
 
 const TodoList = () => {
     const [todos, setTodos] = useState<TodoInterface[]>([]);
@@ -81,7 +82,7 @@ const TodoList = () => {
     <>
     <div>
        {error && <p>{error}</p>}
-       {loading && <p>Loading...</p>}
+       {loading && <SquareLoader color="#f2d774" size={50} />}
 
        {todos.map((todo) => (
         <Todo key={todo.id} todo={todo} onDelete={deleteTodo} onStatusChange={updateStatus} />
