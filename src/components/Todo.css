@@ -82,3 +82,10 @@
   outline-offset: 3px;
   border-radius: 4px;
 }
+
+.todo-note-footer {
+  margin-top: auto;     
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}

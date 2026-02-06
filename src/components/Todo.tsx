@@ -21,9 +21,10 @@ const Todo = ({ todo, onDelete, onStatusChange }: Props) => {
       {todo.description && (
         <p className="todo-note-description">{todo.description}</p>
       )}
-      <div className="todo-note-row">
+      <div className="todo-note-footer">
+
+    <div className="todo-note-row">
       <label className="todo-note-label">
-        Status
         <select
           className="todo-note-select"
           value={todo.status}
@@ -37,11 +38,18 @@ const Todo = ({ todo, onDelete, onStatusChange }: Props) => {
       </label>
     </div>
 
-    <p className="todo-note-date">{new Date(todo.createdAt).toLocaleString()}</p>
+    <p className="todo-note-date">
+      {new Date(todo.createdAt).toLocaleString()}
+    </p>
 
-    <button className="todo-note-delete" onClick={() => onDelete(todo.id)}>
+    <button
+      className="todo-note-delete"
+      onClick={() => onDelete(todo.id)}
+    >
       Delete
     </button>
+
+  </div>
   </section>
 );
 };
